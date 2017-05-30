@@ -1,0 +1,33 @@
+## Function usefull to get the inverse of a matrix,
+##looking first if it was calculated before in a cache
+## if it's old, gets the result from the cache if not calculates it
+
+## Creates an object (matrix) that cache its inverse
+
+makeCacheMatrix <- function(x = matrix()) {
+        
+        inver <- NULL
+        set <- function(y) {
+                x <<- y
+                inver <<- NULL
+        }
+        get <- function() x
+        setsolve <- function(in) in <<- inver
+        getsolve <- function() inver
+        list(set=set, get=get, setsolve=setsolve, getsolve=getsolve)
+}
+
+## Checks in the cache or calculates the result
+
+cacheSolve <- function(x, ...) {
+        inver <- x$getsolve()
+        if(!is.null(inver)) {
+                message("getting cached data")
+                return(inver)
+        }
+        ## Return a matrix that is the inverse of 'x'
+        data <- x$get()
+        inver <- solve(data)
+        x$setsolve(inver)
+        inver
+}
